@@ -2,27 +2,20 @@
 <html>
 
 <head>
-
 <title>Vehicle Tracker</title>
-
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
 <style>
-
 body{
-text-align:center;
-font-family:Arial;
+  text-align:center;
+  font-family:Arial;
 }
-
 #map{
-height:500px;
-width:90%;
-margin:auto;
+  height:500px;
+  width:90%;
+  margin:auto;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -38,15 +31,25 @@ Track
 </button>
 
 <h3 id="coords"></h3>
-
 <h3 id="speed"></h3>
 
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<script>
+// Mobile GPS location server ki send cheyyadam
+function sendMyLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.watchPosition(function(pos){
+      fetch(`https://gps-tracking-website-production.up.railway.app/update?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}&speed=${pos.coords.speed || 0}`)
+    });
+  }
+}
+sendMyLocation();
+</script>
+
 <script src="script.js"></script>
 
 </body>
-
 </html>
