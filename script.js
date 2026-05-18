@@ -7,7 +7,7 @@ let pathCoordinates = [];
 let polyline;
 
 function loadLocation(){
-  fetch("https://gps-tracking-website-production.up.railway.app/location")
+  fetch(`https://gps-tracking-website-production.up.railway.app/location?vno=${document.getElementById("vehicleNo").value}`)
   .then(res=>res.json())
   .then(data=>{
 

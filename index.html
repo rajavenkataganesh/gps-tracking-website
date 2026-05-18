@@ -40,11 +40,10 @@ Track
 <script>
 // Mobile GPS location server ki send cheyyadam
 function sendMyLocation(){
-  if(navigator.geolocation){
-    navigator.geolocation.watchPosition(function(pos){
-      fetch(`https://gps-tracking-website-production.up.railway.app/update?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}&speed=${pos.coords.speed || 0}`)
-    });
-  }
+ navigator.geolocation.watchPosition(function(pos){
+  const vno = "YOUR_VEHICLE_NUMBER"; // mee vehicle number ikkade petti
+  fetch(`https://gps-tracking-website-production.up.railway.app/update?vno=${vno}&lat=${pos.coords.latitude}&lng=${pos.coords.longitude}&speed=${pos.coords.speed || 0}`)
+});
 }
 sendMyLocation();
 </script>
