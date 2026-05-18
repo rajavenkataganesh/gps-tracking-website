@@ -8,7 +8,7 @@ let pathCoordinates = [];
 let polyline;
 function loadLocation(){
 
-fetch("http://localhost:3000/location")
+fetch("http://gps-tracking-website-production.up.railway.app/location")
 
 .then(res=>res.json())
 
