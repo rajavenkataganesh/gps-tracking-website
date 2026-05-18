@@ -5,11 +5,24 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 var marker;
 let pathCoordinates = [];
 let polyline;
+let trackingInterval;
 
 function loadLocation(){
-  fetch(`https://gps-tracking-website-production.up.railway.app/location?vno=${document.getElementById("vehicleNo").value}`)
+  var vno = document.getElementById("vehicleNo").value;
+  
+  if(!vno){
+    alert("Vehicle number enter cheyyi!");
+    return;
+  }
+
+  fetch("https://gps-tracking-website-production.up.railway.app/location?vno=" + vno)
   .then(res=>res.json())
   .then(data=>{
+
+    if(data.error){
+      alert("Vehicle not found!");
+      return;
+    }
 
     pathCoordinates.push([data.lat,data.lng]);
 
@@ -38,6 +51,3 @@ function loadLocation(){
     map.setView([data.lat,data.lng],13);
   });
 }
-
-setInterval(loadLocation,5000);
-loadLocation();
