@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Vehicle Tracker</title>
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<style>
+
+body{
+text-align:center;
+font-family:Arial;
+}
+
+#map{
+height:500px;
+width:90%;
+margin:auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Vehicle Tracking System</h1>
+
+<input type="text"
+id="vehicleNo"
+placeholder="Enter Vehicle Number">
+
+<button onclick="loadLocation()">
+Track
+</button>
+
+<h3 id="coords"></h3>
+
+<h3 id="speed"></h3>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

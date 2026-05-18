@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tracker</title>
+</head>
+<body>
+
+<h1>Sending Live Location...</h1>
+
+<button onclick="getLocation()">Allow Location</button>
+
+<script>
+
+function getLocation(){
+
+navigator.geolocation.getCurrentPosition(
+
+(position)=>{
+
+let lat = position.coords.latitude;
+let lng = position.coords.longitude;
+
+fetch(`http://localhost:3000/update?lat=${lat}&lng=${lng}&speed=45`)
+
+.then(res=>res.text())
+
+.then(data=>{
+
+console.log(data);
+
+alert("Location Sent Successfully");
+
+});
+
+},
+
+(error)=>{
+
+alert("Location Permission Denied");
+
+}
+
+);
+
+}
+
+</script>
+
+</body>
+</html>
