@@ -5,24 +5,49 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.static(__dirname));
 
-let vehicles = {};
+const SUPABASE_URL = "https://xptcxahcpizcaxmfeebx.supabase.co";
+const SUPABASE_KEY = "mee_anon_key_ikkade_petti";
 
-app.get("/location", (req, res) => {
+async function getVehicle(vno) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/vehicles?vno=eq.${vno}`, {
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`
+    }
+  });
+  const data = await res.json();
+  return data[0];
+}
+
+async function upsertVehicle(vno, lat, lng, speed) {
+  await fetch(`${SUPABASE_URL}/rest/v1/vehicles?vno=eq.${vno}`, {
+    method: "DELETE",
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`
+    }
+  });
+  await fetch(`${SUPABASE_URL}/rest/v1/vehicles`, {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Authorization": `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ vno, lat, lng, speed })
+  });
+}
+
+app.get("/location", async (req, res) => {
   const vno = req.query.vno;
-  if(vehicles[vno]){
-    res.json(vehicles[vno]);
-  } else {
-    res.json({ error: "Vehicle not found" });
-  }
+  const vehicle = await getVehicle(vno);
+  if(vehicle) res.json(vehicle);
+  else res.json({ error: "Vehicle not found" });
 });
 
-app.get("/update", (req, res) => {
-  const vno = req.query.vno;
-  vehicles[vno] = {
-    lat: parseFloat(req.query.lat),
-    lng: parseFloat(req.query.lng),
-    speed: req.query.speed || 0
-  };
+app.get("/update", async (req, res) => {
+  const { vno, lat, lng, speed } = req.query;
+  await upsertVehicle(vno, parseFloat(lat), parseFloat(lng), speed || 0);
   res.send("Updated");
 });
 
