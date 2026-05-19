@@ -7,7 +7,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.static(__dirname));
 
 const SUPABASE_URL = "https://xptcxahcpizcaxmfeebx.supabase.co";
-const SUPABASE_KEY = "mee_anon_key_ikkade_petti";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiI...";
 
 async function getVehicle(vno) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/vehicles?vno=eq.${vno}`, {
