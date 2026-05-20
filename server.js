@@ -6,7 +6,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.static(__dirname));
 
 const SUPABASE_URL = Process.env.SUPABASE_URL;
-const SUPABASE_KEY=
+const SUPABASE_KEY=process.env.SUPABASE_KEY;
 async function getVehicle(vno) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/vehicles?vno=eq.${vno}`, {
     headers: {
